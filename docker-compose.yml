@@ -1,0 +1,24 @@
+  
+version: '2'
+
+services:
+  oracle:
+    build: ./
+    restart: always
+    environment:
+      NODE_ENV: production
+      VIRTUAL_HOST: oracle.tornado.cash
+      LETSENCRYPT_HOST: oracle.tornado.cash
+    env_file: ./.env
+
+  monitor:
+    image: arefaslani/docker-telegram-notifier
+    restart: always
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+    env_file: ./.env
+
+networks:
+  default:
+    external:
+      name: frontend_default
